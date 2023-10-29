@@ -36,7 +36,7 @@ public class DbConnectionFactory {
                 //Class.forName("com.mysql.cj.jdbc.Driver");
                 String url = "jdbc:mysql://localhost:3306/seminarski";
                 String user = "root";
-                String password = "Vikilica1";
+                String password = "admin";
                 connection = DriverManager.getConnection(url, user, password);
                 connection.setAutoCommit(false);
             } catch (SQLException ex) {

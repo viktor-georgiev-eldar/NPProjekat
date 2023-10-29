@@ -33,8 +33,9 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
     public List<Racun> vratiSve() throws Exception {
         //U ovoj funkciji postaviti parametre kao sto su id, korisnik, datum
         //TODO napraviti funkciju koja ce citati stavke racuna za dati id
+    	// max() u selectu je dodat zbog razlicite postavke sql flaga 'only_full_group_by'. info: https://stackoverflow.com/questions/41887460/select-list-is-not-in-group-by-clause-and-contains-nonaggregated-column-inc
         List<Racun> lista=new ArrayList<>();
-        String upit = "SELECT r.racunid,a.naziv, a.cena, sr.kolicina, k.ime, k.prezime,r.ukupno, r.datum FROM stavka_racuna sr\n" +
+        String upit = "SELECT r.racunid,max(a.naziv), max(a.cena), max(sr.kolicina), max(k.ime), max(k.prezime), max(r.ukupno), max(r.datum) FROM stavka_racuna sr\n" +
                       "JOIN racun r USING(racunid)\n" +
                       "JOIN artikal a USING(artikalid)\n" +
                       "JOIN korisnik k USING(korisnikid)\n" +
@@ -46,11 +47,11 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
         while(rs.next()){
             Racun r=new Racun();
             r.setRacunId(rs.getInt("r.racunid"));
-            r.setDatum(rs.getTimestamp("r.datum").toLocalDateTime());
-            r.setUkupno(rs.getDouble("r.ukupno"));
+            r.setDatum(rs.getTimestamp("max(r.datum)").toLocalDateTime());
+            r.setUkupno(rs.getDouble("max(r.ukupno)"));
             Korisnik k=new Korisnik();
-            k.setIme(rs.getString("k.ime"));
-            k.setPrezime(rs.getString("k.prezime"));
+            k.setIme(rs.getString("max(k.ime)"));
+            k.setPrezime(rs.getString("max(k.prezime)"));
             //TODO dodati ostale podatke za korisnika
             r.setKorisnik(k);
             List<StavkaRacuna> listaStavki=RepositoryStavkaRacuna.getInstance().nadjiZaId(r.getRacunId());
