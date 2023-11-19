@@ -49,14 +49,19 @@ public class RepositoryArtikal implements rs.np.dbRepository.DBRepository<Artika
     public int dodaj(Artikal t) throws Exception {
         String upit = "INSERT INTO artikal (naziv,opis,cena) VALUES (?,?,?)";
         connection=DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = connection.prepareStatement(upit);
+        PreparedStatement ps=connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, t.getNaziv());
         ps.setString(2, t.getOpis());
         ps.setDouble(3, t.getCena());
-        int znak=ps.executeUpdate();
+        ps.executeUpdate();
+        ResultSet rs=ps.getGeneratedKeys();
+        int id = 0;
+        if (rs.next()) {
+        	id = rs.getInt(1);
+        }
         ps.close();
         connection.commit();
-        return znak;
+        return id;
     }
 
     @Override
@@ -75,12 +80,33 @@ public class RepositoryArtikal implements rs.np.dbRepository.DBRepository<Artika
 
     @Override
     public int izbrisi(Artikal t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String upit = "DELETE FROM artikal WHERE artikalId=?";
+        connection=DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement(upit);
+        statement.setInt(1, t.getArtikalId());
+        int result = statement.executeUpdate();
+        statement.close();
+        connection.commit();
+        if (result==1) {
+        	return 1;
+        }
+        return 0;
     }
 
     @Override
     public Artikal nadji(Integer k) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String upit = "SELECT * FROM artikal WHERE artikalId="+k;
+        connection=DbConnectionFactory.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(upit);
+        Artikal a =new Artikal();
+        if (rs.next()) {
+            a.setArtikalId(rs.getInt("artikalId"));
+            a.setNaziv(rs.getString("naziv"));
+            a.setOpis(rs.getString("opis"));
+            a.setCena(rs.getDouble("cena"));
+        }
+        return a;
     }
     
 }

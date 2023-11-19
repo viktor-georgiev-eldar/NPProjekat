@@ -30,7 +30,7 @@
 	    <artifactId>biblioteka</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
 	    <scope>system</scope>
-	    <systemPath>${project.basedir}/../biblioteka/target/biblioteka-0.0.1-SNAPSHOT.jar</systemPath>
+	    <systemPath>C:\Users\viktor.georgiev\git\NPBiblioteka\biblioteka\target/biblioteka-0.0.1-SNAPSHOT.jar</systemPath>
 	</dependency>
 	<dependency>
 	    <groupId>org.junit.jupiter</groupId>
