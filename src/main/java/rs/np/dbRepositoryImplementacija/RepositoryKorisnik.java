@@ -7,6 +7,7 @@ package rs.np.dbRepositoryImplementacija;
 
 import rs.np.db.DBBroker;
 import rs.np.dbRepository.DbConnectionFactory;
+import domenskiObjekti.Artikal;
 import domenskiObjekti.Korisnik;
 import domenskiObjekti.TipKorisnika;
 import java.sql.Connection;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author Viktor
  */
-public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Korisnik,Long>{
+public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Korisnik,Integer>{
 
     private Connection connection;
 
@@ -59,7 +60,7 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
     public int dodaj(Korisnik t) throws Exception {
         String upit = "INSERT INTO korisnik (ime,prezime,telefon,username,password,tipKorisnikaId,ulogovan) VALUES (?,?,?,?,?,?,?)";
         connection=DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = connection.prepareStatement(upit);
+        PreparedStatement ps = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, t.getIme());
         ps.setString(2, t.getPrezime());
         ps.setString(3, t.getTelefon());
@@ -67,10 +68,15 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         ps.setString(5, t.getPassword());
         ps.setInt(6, 2);
         ps.setBoolean(7, false);
-        int znak = ps.executeUpdate();
+        ps.executeUpdate();
+        ResultSet rs=ps.getGeneratedKeys();
+        int id = 0;
+        if (rs.next()) {
+        	id = rs.getInt(1);
+        }
         ps.close();
         connection.commit();
-        return znak;
+        return id;
     }
 
     @Override
@@ -92,12 +98,36 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
     
     @Override
     public int izbrisi(Korisnik t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String upit = "DELETE FROM korisnik WHERE korisnikId=?";
+        connection=DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement(upit);
+        statement.setInt(1, t.getKorisnikId());
+        int result = statement.executeUpdate();
+        statement.close();
+        connection.commit();
+        if (result==1) {
+        	return 1;
+        }
+        return 0;
     }
 
     @Override
-    public Korisnik nadji(Long k) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Korisnik nadji(Integer k) throws Exception {
+    	String upit = "SELECT * FROM korisnik WHERE korisnikId="+k;
+        connection=DbConnectionFactory.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(upit);
+        Korisnik a =new Korisnik();
+        if (rs.next()) {
+            a.setKorisnikId(rs.getInt("korisnikId"));
+            a.setUsername(rs.getString("username"));
+            a.setPassword(rs.getString("password"));
+            a.setIme(rs.getString("ime"));
+            a.setPrezime(rs.getString("prezime"));
+            a.setTelefon(rs.getString("telefon"));
+            a.setUlogovan(rs.getBoolean("ulogovan"));
+        }
+        return a;
     }
  
     public boolean uloguj(String username){

@@ -23,7 +23,7 @@ public class RepositoryStavkaRacuna implements rs.np.dbRepository.DBRepository<S
     private Connection connection;
     private static RepositoryStavkaRacuna instance; 
 
-    private RepositoryStavkaRacuna() {
+    RepositoryStavkaRacuna() {
         
     }
     public static RepositoryStavkaRacuna getInstance(){
