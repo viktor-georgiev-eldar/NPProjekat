@@ -6,6 +6,7 @@
 package rs.np.dbRepositoryImplementacija;
 
 import rs.np.dbRepository.DbConnectionFactory;
+import domenskiObjekti.Artikal;
 import domenskiObjekti.Korisnik;
 import domenskiObjekti.Racun;
 import domenskiObjekti.StavkaRacuna;
@@ -64,7 +65,8 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
 
     @Override
     public int dodaj(Racun t) throws Exception {
-        try{
+    	int racunId = 0;
+        try{        	
             optimizujRacun(t);
             connection=DbConnectionFactory.getInstance().getConnection();
             String upit="INSERT INTO racun (datum,korisnikid,ukupno) VALUES (?,?,?)";
@@ -79,7 +81,7 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
             ResultSet rs=statement.getGeneratedKeys();
             
             if(rs.next()){
-                int racunId=rs.getInt(1);
+                racunId=rs.getInt(1);
                 t.setRacunId(racunId);
                 
                 upit="INSERT INTO stavka_racuna VALUES(?,?,?)";
@@ -103,7 +105,7 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
             e.printStackTrace();
             throw new Exception("Neuspesna transakcija");
         }
-        return 1;
+        return racunId;
     }
 
     @Override
@@ -113,12 +115,49 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
 
     @Override
     public int izbrisi(Racun t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String upit = "DELETE FROM racun WHERE racunId=?";
+        connection=DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement(upit);
+        statement.setInt(1, t.getRacunId());
+        int result = statement.executeUpdate();
+        statement.close();
+        connection.commit();
+        if (result==1) {
+        	return 1;
+        }
+        return 0;
     }
 
     @Override
     public Racun nadji(Integer k) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	Racun racun = new Racun();
+        String upit = "SELECT r.racunid, a.naziv, a.cena, sr.kolicina, k.ime, k.prezime, r.ukupno, r.datum FROM stavka_racuna sr\n" +
+                "JOIN racun r USING(racunid)\n" +
+                "JOIN artikal a USING(artikalid)\n" +
+                "JOIN korisnik k USING(korisnikid)\n" +
+                "WHERE r.racunid="+k;
+        connection=DbConnectionFactory.getInstance().getConnection();
+        Statement statement=connection.createStatement();
+        ResultSet rs=statement.executeQuery(upit);
+        List<StavkaRacuna> lista=new ArrayList<>();
+        while(rs.next()){
+        	racun.setRacunId(rs.getInt("r.racunid"));
+        	StavkaRacuna sr = new StavkaRacuna();
+        	Artikal a = new Artikal();
+        	a.setNaziv(rs.getString("naziv"));
+        	a.setCena(rs.getDouble("cena"));
+        	sr.setArtikal(a);
+        	Korisnik korisnik = new Korisnik();
+        	korisnik.setIme(rs.getString("ime"));
+        	korisnik.setPrezime(rs.getString("prezime"));
+        	racun.setKorisnik(korisnik);
+        	sr.setKolicina(rs.getInt("kolicina"));
+        	lista.add(sr);
+        	racun.setUkupno(rs.getDouble("ukupno"));
+        	racun.setDatum(rs.getTimestamp("r.datum").toLocalDateTime());
+        }
+        racun.setListaStavki(lista);
+        return racun;
     }
     
     private void optimizujRacun(Racun r) {

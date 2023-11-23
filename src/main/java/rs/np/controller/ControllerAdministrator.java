@@ -52,6 +52,12 @@ public class ControllerAdministrator {
         } catch (Exception ex) {
             Logger.getLogger(ControllerAdministrator.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.print("Username: ");
+        System.out.println(username);
+        System.out.print("Password: ");
+        System.out.println(password);
+        System.out.println("Korisnici: ");
+        System.out.println(lista);
         for(Korisnik k:lista){
             if(k.getUsername().equals(username)){
                 if(k.getPassword().equals(password)){
