@@ -10,17 +10,33 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ *	Uspostavlja jedinstvenu vezu sa bazom podataka i obezbedjuje je drugim klasama
  *
- * @author Cartman
+ * @author Viktor
  */
 public class DbConnectionFactory {
+    /**
+     * Konekcija sa bazom podataka
+     */
     private Connection connection;
+    
+    /**
+     * Jedinstvena instanca klase
+     */ 
     private static DbConnectionFactory instance;
     
+    /**
+     * Klasa koja se koristi za dohvatanje konekcija ka bazi
+     */ 
     private DbConnectionFactory(){
         
     }
     
+    /**
+     * Vraća instancu DbConnectionFactory-ja.
+     * 
+     * @return Instanca DbConnectionFactory-ja
+     */
     public static DbConnectionFactory getInstance(){
         if(instance==null){
             instance=new DbConnectionFactory();
@@ -28,7 +44,12 @@ public class DbConnectionFactory {
         return instance;
     }
      
-     
+    /**
+     * Dobavlja konekciju ka bazi podataka.
+     * 
+     * @return Konekcija ka bazi podataka
+     * @throws SQLException U slucaju neuspelog povezivanja
+     */ 
     public Connection getConnection() throws SQLException{
        
         if (connection == null || connection.isClosed()) {

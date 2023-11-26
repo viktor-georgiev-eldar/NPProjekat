@@ -21,17 +21,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Implementacija interfejsa DBRepository za manipulaciju podacima vezanim za Korisnika.
+ * 
  * @author Viktor
  */
 public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Korisnik,Integer>{
 
+    /**
+     * Konekcija sa bazom podataka
+     */
     private Connection connection;
 
+    /**
+     * Klasa koja se koristi za manipulaciju korisnika nad bazom
+     */
     public RepositoryKorisnik() {
         
     }
     
+    /**
+     * Vraća sve korisnike iz baze podataka.
+     * @return Lista korisnika
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public List<Korisnik> vratiSve() throws Exception {
         connection=DbConnectionFactory.getInstance().getConnection();
@@ -55,7 +67,13 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         statement.close();
         return lista;
     }
-
+    
+    /**
+     * Dodaje novog korisnika u bazu podataka.
+     * @param t Korisnik koji se dodaje
+     * @return ID dodatog korisnika
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public int dodaj(Korisnik t) throws Exception {
         String upit = "INSERT INTO korisnik (ime,prezime,telefon,username,password,tipKorisnikaId,ulogovan) VALUES (?,?,?,?,?,?,?)";
@@ -79,6 +97,12 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         return id;
     }
 
+    /**
+     * Vrši izmenu postojećeg korisnika u bazi podataka.
+     * @param t Korisnik koji se menja
+     * @return Broj izmenjenih redova u bazi
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public int izmeni(Korisnik t) throws Exception {
         String upit = "UPDATE korisnik SET ime=?, prezime=?, username=?, password=?, telefon=? WHERE korisnikId=?";
@@ -96,6 +120,12 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         return result;
     }
     
+    /**
+     * Briše korisnika iz baze podataka.
+     * @param t Korisnik koji se briše
+     * @return 1 ako je uspesno obrisan, inace 0
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public int izbrisi(Korisnik t) throws Exception {
     	String upit = "DELETE FROM korisnik WHERE korisnikId=?";
@@ -111,6 +141,12 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         return 0;
     }
 
+    /**
+     * Pronalazi korisnika u bazi podataka na osnovu datog kljuca.
+     * @param k Kljuc za pretragu korisnika
+     * @return Pronađeni korisnik
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public Korisnik nadji(Integer k) throws Exception {
     	String upit = "SELECT * FROM korisnik WHERE korisnikId="+k;
@@ -130,6 +166,13 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         return a;
     }
  
+    
+    /**
+     * Uloguje korisnika na osnovu korisnickog imena.
+     *
+     * @param username Korisnicko ime koje se uloguje
+     * @return Rezultat ulogovanja (true/false)
+     */
     public boolean uloguj(String username){
         String upit = "UPDATE korisnik SET ulogovan=1 WHERE username='" + username+"'"; 
         int rez=0;
@@ -153,6 +196,12 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         return false;
     }
     
+    /**
+     * Izloguje korisnika na osnovu korisnickog imena.
+     *
+     * @param username Korisnicko ime koje se izloguje
+     * @return Rezultat izlogovanja (true/false)
+     */
     public boolean izloguj(String username){
         String upit = "UPDATE korisnik SET ulogovan=0 WHERE username='" + username+"'";        
         int rez = 0;
@@ -175,6 +224,11 @@ public class RepositoryKorisnik implements rs.np.dbRepository.DBRepository<Koris
         return false;
     }
     
+    /**
+     * Izloguje sve korisnike.
+     *
+     * @return Rezultat izlogovanja svih korisnika (true/false)
+     */
     public boolean izlogujSve(){
         String upit="UPDATE korisnik SET ulogovan=0";
         try {

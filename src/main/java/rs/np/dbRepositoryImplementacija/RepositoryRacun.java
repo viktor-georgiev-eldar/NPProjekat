@@ -24,8 +24,14 @@ import java.util.List;
  */
 public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,Integer>{
 
+    /**
+     * Konekcija sa bazom podataka
+     */
     private Connection connection;
 
+    /**
+     * Klasa koja se koristi za manipulaciju racuna nad bazom
+     */
     public RepositoryRacun() {
         
     }
@@ -160,6 +166,11 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
         return racun;
     }
     
+    /**
+     * Optimizuje racun optimizovanjem njegovih stavki.
+     *
+     * @param r Racun koji se optimizuje
+     */
     private void optimizujRacun(Racun r) {
         ArrayList<StavkaRacuna> pomocnaLista=new ArrayList<>();
         for(StavkaRacuna sr:r.getListaStavki()){
@@ -169,6 +180,12 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
         izracunajStavkuUkupno(r);
     }
     
+    /**
+     * Dodaje stavku racuna u listu stavki ako vec ne postoji slicna stavka.
+     *
+     * @param lista  Lista u koju se dodaje stavka racuna
+     * @param stavka Stavka racuna koja se dodaje
+     */
     private void dodajStavkuUListu(ArrayList<StavkaRacuna> lista,StavkaRacuna stavka){
         
         for(StavkaRacuna sr:lista){
@@ -180,6 +197,11 @@ public class RepositoryRacun implements rs.np.dbRepository.DBRepository<Racun,In
         lista.add(stavka);
     }
 
+    /**
+     * Izracunava ukupnu cenu za stavke racuna.
+     *
+     * @param racun Racun za koji se izracunava ukupna cena stavki
+     */
     private void izracunajStavkuUkupno(Racun racun) {
         double suma=0;
         for(StavkaRacuna sr:racun.getListaStavki()){

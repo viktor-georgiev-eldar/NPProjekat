@@ -20,12 +20,27 @@ import java.util.List;
  */
 public class RepositoryStavkaRacuna implements rs.np.dbRepository.DBRepository<StavkaRacuna,Integer>{
 
+    /**
+     * Konekcija sa bazom podataka
+     */
     private Connection connection;
+    /**
+     * Jedinstvena instanca klase
+     */ 
     private static RepositoryStavkaRacuna instance; 
 
+    /**
+     * Klasa koja se koristi za manipulaciju stavki racuna nad bazom
+     */
     RepositoryStavkaRacuna() {
         
     }
+    
+    /**
+     * Vraća instancu RepositoryStavkaRacuna klase.
+     * 
+     * @return Instanca RepositoryStavkaRacuna klase
+     */
     public static RepositoryStavkaRacuna getInstance(){
         if(instance==null)
             instance=new RepositoryStavkaRacuna();
@@ -57,6 +72,13 @@ public class RepositoryStavkaRacuna implements rs.np.dbRepository.DBRepository<S
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * Pronalazi sve stavke racuna na osnovu datog identifikatora racuna.
+     *
+     * @param k Identifikator racuna za pretragu stavki
+     * @return Lista stavki racuna
+     * @throws Exception U slucaju greske prilikom pretrage stavki
+     */
     public List<StavkaRacuna> nadjiZaId(Integer k) throws Exception {
         List<StavkaRacuna> lista=new ArrayList<>();
         String upit="SELECT * FROM stavka_racuna sr\n" +

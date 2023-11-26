@@ -15,16 +15,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Implementacija interfejsa DBRepository za manipulaciju podacima vezanim za Artikal.
+ * 
  * @author Viktor
  */
 public class RepositoryArtikal implements rs.np.dbRepository.DBRepository<Artikal,Integer>{
 
+	
+    /**
+     * Konekcija sa bazom podataka
+     */
     private Connection connection;
 
+    
+    /**
+     * Klasa koja se koristi za manipulaciju artikala nad bazom
+     */
     public RepositoryArtikal() {
         
     }
+    
+    /**
+     * Vraća sve artikle iz baze podataka.
+     * @return Lista artikala
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public List<Artikal> vratiSve() throws Exception {
         List<Artikal> lista = new ArrayList<>();
@@ -45,6 +60,12 @@ public class RepositoryArtikal implements rs.np.dbRepository.DBRepository<Artika
         return lista;
     }
 
+    /**
+     * Dodaje novi artikal u bazu podataka.
+     * @param t Artikal koji se dodaje
+     * @return ID dodatog artikla
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public int dodaj(Artikal t) throws Exception {
         String upit = "INSERT INTO artikal (naziv,opis,cena) VALUES (?,?,?)";
@@ -64,6 +85,12 @@ public class RepositoryArtikal implements rs.np.dbRepository.DBRepository<Artika
         return id;
     }
 
+    /**
+     * Vrši izmenu postojećeg artikla u bazi podataka.
+     * @param t Artikal koji se menja
+     * @return Broj izmenjenih redova u bazi
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public int izmeni(Artikal t) throws Exception {
         String upit = "UPDATE artikal SET naziv=?, opis=?, cena=? WHERE artikalId="+t.getArtikalId();
@@ -78,6 +105,12 @@ public class RepositoryArtikal implements rs.np.dbRepository.DBRepository<Artika
         return result;
     }
 
+    /**
+     * Briše artikal iz baze podataka.
+     * @param t Artikal koji se briše
+     * @return 1 ako je uspesno obrisan, inace 0
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public int izbrisi(Artikal t) throws Exception {
     	String upit = "DELETE FROM artikal WHERE artikalId=?";
@@ -93,6 +126,12 @@ public class RepositoryArtikal implements rs.np.dbRepository.DBRepository<Artika
         return 0;
     }
 
+    /**
+     * Pronalazi artikal u bazi podataka na osnovu datog kljuca.
+     * @param k Kljuc za pretragu artikla
+     * @return Pronađeni artikal
+     * @throws Exception U slucaju greške prilikom pristupa podacima
+     */
     @Override
     public Artikal nadji(Integer k) throws Exception {
     	String upit = "SELECT * FROM artikal WHERE artikalId="+k;
