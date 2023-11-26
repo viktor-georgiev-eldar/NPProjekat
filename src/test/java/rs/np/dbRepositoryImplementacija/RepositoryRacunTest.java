@@ -48,42 +48,39 @@ class RepositoryRacunTest {
 		noviRacun = (Racun) racunCrud.nadji(id);
 		assertEquals(racun.getKorisnik().getIme(), noviRacun.getKorisnik().getIme());
 		assertEquals(racun.getKorisnik().getPrezime(), noviRacun.getKorisnik().getPrezime());
-//		assertEquals(user.getPrezime(), noviRacun.getPrezime());
-//		assertEquals(user.getUsername(), noviRacun.getUsername());
-//		assertEquals(user.getPassword(), noviRacun.getPassword());
-//		assertEquals(user.getTelefon(), noviRacun.getTelefon());
-//		assertEquals(user.isUlogovan(), noviRacun.isUlogovan());
+		assertEquals(racun.getListaStavki().get(0).getArtikal().getNaziv(), noviRacun.getListaStavki().get(0).getArtikal().getNaziv());
+		assertEquals(racun.getListaStavki().get(0).getArtikal().getCena(), noviRacun.getListaStavki().get(0).getArtikal().getCena());
+		assertEquals(racun.getListaStavki().get(0).getKolicina(), noviRacun.getListaStavki().get(0).getKolicina());
 		racunCrud.izbrisi(noviRacun);
 		korisnikCrud.izbrisi(user);
 		artikalCrud.izbrisi(sok);
 	}
 	
-//	@Test
-//	void testIzmenaRacuna() throws Exception {
-//		Korisnik user = new Korisnik(1, "Viktor", "Viktor123", "Viktor", "Georgiev", "0615648972", TipKorisnika.KORISNIK, false);
-//		Integer id = racunCrud.dodaj(user);
-//		String noviBrojTelefona = "0618642571";
-//		
-//		Korisnik noviKorisnik = new Korisnik();
-//		noviKorisnik = (Korisnik) racunCrud.nadji(id);
-//		noviKorisnik.setTelefon(noviBrojTelefona);
-//		racunCrud.izmeni(noviKorisnik);
-//		noviKorisnik = (Korisnik) racunCrud.nadji(id);
-//		
-//		assertEquals(noviBrojTelefona, noviKorisnik.getTelefon());
-//		racunCrud.izbrisi(noviKorisnik);
-//	}
-//	
-//	@Test
-//	void testIzbrisiRacun() throws Exception {
-//		Korisnik user = new Korisnik(1, "Viktor", "Viktor123", "Viktor", "Georgiev", "0615648972", TipKorisnika.KORISNIK, false);
-//		Integer id = racunCrud.dodaj(user);
-//		
-//		Korisnik noviKorisnik = new Korisnik();
-//		noviKorisnik = (Korisnik) racunCrud.nadji(id);
-//		racunCrud.izbrisi(noviKorisnik);
-//		noviKorisnik = (Korisnik) racunCrud.nadji(id);
-//		assertEquals(0, noviKorisnik.getKorisnikId());
-//	}
+
+	@Test
+	void testIzbrisiRacun() throws Exception {
+		Korisnik user = new Korisnik(1, "Viktor", "Viktor123", "Viktor", "Georgiev", "0615648972", TipKorisnika.KORISNIK, false);
+		rs.np.dbRepository.DBRepository korisnikCrud = new RepositoryKorisnik();
+		int korisnikId =korisnikCrud.dodaj(user);
+		user.setKorisnikId(korisnikId);
+		Artikal sok = new Artikal(255, "Vocni sok", "100% jagoda", 259);
+		rs.np.dbRepository.DBRepository artikalCrud = new RepositoryArtikal();
+		int artikalId = artikalCrud.dodaj(sok);
+		sok.setArtikalId(artikalId);
+		List<StavkaRacuna> stavkeRacuna= new ArrayList<StavkaRacuna>();
+		StavkaRacuna sr =new StavkaRacuna(sok, 2);
+		stavkeRacuna.add(sr);
+		Racun racun = new Racun(1, user, stavkeRacuna);
+		Integer id = racunCrud.dodaj(racun);
+		
+		Racun noviRacun= new Racun();
+		noviRacun = (Racun) racunCrud.nadji(id);
+		
+		racunCrud.izbrisi(noviRacun);
+		korisnikCrud.izbrisi(user);
+		artikalCrud.izbrisi(sok);
+		noviRacun = (Racun) racunCrud.nadji(id);
+		assertEquals(0, noviRacun.getRacunId());
+	}
 
 }
