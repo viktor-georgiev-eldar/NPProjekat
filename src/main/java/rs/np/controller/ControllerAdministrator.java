@@ -22,6 +22,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
+
 /**
  *
  * @author agro
@@ -172,15 +174,18 @@ public class ControllerAdministrator {
      }
 
     
-    public List<Artikal> vratiArtikle() throws Exception{
-        
+//    public List<Artikal> vratiArtikle() throws Exception{
+     public String vratiArtikle() throws Exception{
+    	 
         List<Artikal> lista=null;
         try {
             lista=artikalCrud.vratiSve();
         } catch (SQLException ex) {
             Logger.getLogger(ControllerAdministrator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lista;
+        Gson gson = new Gson();
+        String json = gson.toJson(lista);
+        return json;
     }
     
     public List<Racun> vratiListuRacuna(){

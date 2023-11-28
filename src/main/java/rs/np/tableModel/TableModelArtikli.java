@@ -6,10 +6,17 @@
 package rs.np.tableModel;
 
 import domenskiObjekti.Artikal;
+import domenskiObjekti.Korisnik;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
+import com.google.gson.reflect.TypeToken;
+
+import com.google.gson.Gson;
 
 /**
  *
@@ -22,7 +29,13 @@ public class TableModelArtikli extends AbstractTableModel{
 
     public TableModelArtikli() {
         try {
-            listaArtikala=rs.np.controller.ControllerAdministrator.getInstance().vratiArtikle();
+        	String json= rs.np.controller.ControllerAdministrator.getInstance().vratiArtikle();
+        	Gson gson = new Gson();
+        	Type listType = new TypeToken<ArrayList<Artikal>>(){}.getType();
+        	System.out.println("Primljen JSON");
+        	System.out.println(json);
+        	listaArtikala = gson.fromJson(json, listType);
+            //listaArtikala=rs.np.controller.ControllerAdministrator.getInstance().vratiArtikle();
         } catch (Exception ex) {
             Logger.getLogger(TableModelArtikli.class.getName()).log(Level.SEVERE, null, ex);
         }
