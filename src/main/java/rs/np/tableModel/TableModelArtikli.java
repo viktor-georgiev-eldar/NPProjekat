@@ -35,7 +35,6 @@ public class TableModelArtikli extends AbstractTableModel{
         	System.out.println("Primljen JSON");
         	System.out.println(json);
         	listaArtikala = gson.fromJson(json, listType);
-            //listaArtikala=rs.np.controller.ControllerAdministrator.getInstance().vratiArtikle();
         } catch (Exception ex) {
             Logger.getLogger(TableModelArtikli.class.getName()).log(Level.SEVERE, null, ex);
         }
