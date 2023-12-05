@@ -35,7 +35,7 @@ import rs.np.tableModel.TableModelRacuni;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class AdminForm extends javax.swing.JFrame {
 

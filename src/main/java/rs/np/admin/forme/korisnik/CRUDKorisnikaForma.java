@@ -18,7 +18,7 @@ import javax.swing.event.ChangeListener;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class CRUDKorisnikaForma extends javax.swing.JDialog {
 

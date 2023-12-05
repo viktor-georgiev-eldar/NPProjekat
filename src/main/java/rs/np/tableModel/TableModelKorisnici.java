@@ -11,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class TableModelKorisnici extends AbstractTableModel{
 
