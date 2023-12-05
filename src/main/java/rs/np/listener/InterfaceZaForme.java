@@ -7,7 +7,7 @@ package rs.np.listener;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public interface InterfaceZaForme {
     void postaviTabelu();

@@ -25,7 +25,7 @@ import komunikacija.ServerskiOdgovor;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class ObradaKlijenata extends Thread {
 

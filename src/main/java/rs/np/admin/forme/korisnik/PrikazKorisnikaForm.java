@@ -21,7 +21,7 @@ import rs.np.tableModel.TableModelKorisnici;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class PrikazKorisnikaForm extends javax.swing.JFrame implements InterfaceZaForme{
 

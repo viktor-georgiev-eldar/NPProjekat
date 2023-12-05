@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class CRUDArtikalaForma extends javax.swing.JDialog {
 

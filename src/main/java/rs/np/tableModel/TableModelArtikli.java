@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class TableModelArtikli extends AbstractTableModel{
     
