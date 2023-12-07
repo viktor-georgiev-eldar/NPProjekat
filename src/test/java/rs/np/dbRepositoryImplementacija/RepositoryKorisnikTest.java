@@ -67,4 +67,16 @@ class RepositoryKorisnikTest {
 		assertEquals(0, noviKorisnik.getKorisnikId());
 	}
 
+	@Test
+	void testDupliraniKorisnici() throws Exception {
+		Korisnik user = new Korisnik(1, "Viktor", "Viktor123", "Viktor", "Georgiev", "0615648972", TipKorisnika.KORISNIK, false);
+		Integer id = korisnikCrud.dodaj(user);
+		assertThrows(java.lang.Exception.class, () -> korisnikCrud.dodaj(user));
+		
+		Korisnik noviKorisnik = new Korisnik();
+		noviKorisnik = (Korisnik) korisnikCrud.nadji(id);
+		korisnikCrud.izbrisi(noviKorisnik);
+		noviKorisnik = (Korisnik) korisnikCrud.nadji(id);
+		assertEquals(0, noviKorisnik.getKorisnikId());
+	}
 }

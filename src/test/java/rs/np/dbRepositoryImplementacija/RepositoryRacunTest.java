@@ -83,4 +83,10 @@ class RepositoryRacunTest {
 		assertEquals(0, noviRacun.getRacunId());
 	}
 
+	@Test
+	void testNeispravanRacun() throws Exception {
+		Korisnik user = new Korisnik(1, "Viktor", "Viktor123", "Viktor", "Georgiev", "0615648972", TipKorisnika.KORISNIK, false);
+		
+		assertThrows(java.lang.NullPointerException.class, () -> new Racun(1,user,null));
+	}
 }

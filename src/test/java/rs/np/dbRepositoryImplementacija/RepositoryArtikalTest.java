@@ -65,5 +65,31 @@ class RepositoryArtikalTest {
 		noviArtikal = (Artikal) artikalCrud.nadji(id);
 		assertEquals(0, noviArtikal.getArtikalId());
 	}
+	
+	@Test
+	void testDupliraniArtikli() throws Exception {
+		Artikal sok = new Artikal(255, "Vocni sok", "100% jagoda", 259);
+		Integer id = artikalCrud.dodaj(sok);
+		assertThrows(java.lang.Exception.class, () -> artikalCrud.dodaj(sok));
+		
+		Artikal noviArtikal = new Artikal();
+		noviArtikal = (Artikal) artikalCrud.nadji(id);
+		artikalCrud.izbrisi(noviArtikal);
+		noviArtikal = (Artikal) artikalCrud.nadji(id);
+		assertEquals(0, noviArtikal.getArtikalId());
+	}
+	
+	@Test
+	void testIllegalArgumentArtikli() throws Exception {
+		Artikal sok = new Artikal(255, "Vocni sok", "100% jagoda", 259);
+		assertThrows(java.lang.IllegalArgumentException.class, () -> sok.setCena(-100));		
+		Integer id = artikalCrud.dodaj(sok);
+		
+		Artikal noviArtikal = new Artikal();
+		noviArtikal = (Artikal) artikalCrud.nadji(id);
+		artikalCrud.izbrisi(noviArtikal);
+		noviArtikal = (Artikal) artikalCrud.nadji(id);
+		assertEquals(0, noviArtikal.getArtikalId());
+	}
 
 }
