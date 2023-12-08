@@ -86,7 +86,11 @@ class RepositoryRacunTest {
 	@Test
 	void testNeispravanRacun() throws Exception {
 		Korisnik user = new Korisnik(1, "Viktor", "Viktor123", "Viktor", "Georgiev", "0615648972", TipKorisnika.KORISNIK, false);
-		
-		assertThrows(java.lang.NullPointerException.class, () -> new Racun(1,user,null));
+		Artikal sok = new Artikal(255, "Vocni sok", "100% jagoda", 259);
+		List<StavkaRacuna> stavkeRacuna= new ArrayList<StavkaRacuna>();
+		StavkaRacuna sr =new StavkaRacuna(sok, 2);
+		stavkeRacuna.add(sr);
+		Racun racun = new Racun(1, user, stavkeRacuna);
+		assertThrows(java.lang.NullPointerException.class, () -> racun.setListaStavki(null));
 	}
 }
