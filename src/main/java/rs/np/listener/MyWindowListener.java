@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class MyWindowListener implements WindowListener{
 

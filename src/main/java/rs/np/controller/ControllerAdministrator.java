@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class ControllerAdministrator {
     
@@ -173,8 +173,7 @@ public class ControllerAdministrator {
         return result;
      }
 
-    
-//    public List<Artikal> vratiArtikle() throws Exception{
+
      public String vratiArtikle() throws Exception{
     	 
         List<Artikal> lista=null;

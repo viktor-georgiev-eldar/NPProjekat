@@ -18,7 +18,7 @@ import rs.np.tableModel.TableModelKorisnici;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class PrikazArtikalaForm extends javax.swing.JFrame implements InterfaceZaForme{
 

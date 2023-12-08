@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *	Implementacija interfejsa DBRepository za manipulaciju podacima vezanim za Stavku Racuna.
  *
  * @author Viktor
  */

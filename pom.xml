@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>rs.np</groupId>
-  <artifactId>Projekat</artifactId>
+  <groupId>com.viktor</groupId>
+  <artifactId>ProjekatIzNP</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>Projekat</name>
@@ -25,18 +25,12 @@
 	    <artifactId>gson</artifactId>
 	    <version>2.9.0</version>
 	</dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
 	<dependency>
-	    <groupId>biblioteka</groupId>
-	    <artifactId>biblioteka</artifactId>
+  		<groupId>com.viktor</groupId>
+  		<artifactId>BibliotekaZaProjekatIzNP</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
 	    <scope>system</scope>
-	    <systemPath>C:\Users\viktor.georgiev\git\NPBiblioteka\biblioteka\target/biblioteka-0.0.1-SNAPSHOT.jar</systemPath>
+	    <systemPath>${basedir}/doc/BibliotekaZaProjekatIzNP-0.0.1-SNAPSHOT.jar</systemPath>
 	</dependency>
 	<dependency>
 	    <groupId>org.junit.jupiter</groupId>

@@ -25,7 +25,7 @@ import komunikacija.ServerskiOdgovor;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class ObradaKlijenata extends Thread {
 
@@ -59,7 +59,6 @@ public class ObradaKlijenata extends Thread {
                         break;
 
                     case Operacije.VRATI_LISTU_ARTIKALA:
-//                        List<Artikal> lista=ControllerAdministrator.getInstance().vratiArtikle();
                     	String lista=ControllerAdministrator.getInstance().vratiArtikle();
                         posaljiOdgovor(new ServerskiOdgovor(Operacije.VRATI_LISTU_ARTIKALA, lista, true));
                         break;

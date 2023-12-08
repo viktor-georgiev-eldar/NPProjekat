@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class TableModelArtikli extends AbstractTableModel{
     
@@ -35,7 +35,6 @@ public class TableModelArtikli extends AbstractTableModel{
         	System.out.println("Primljen JSON");
         	System.out.println(json);
         	listaArtikala = gson.fromJson(json, listType);
-            //listaArtikala=rs.np.controller.ControllerAdministrator.getInstance().vratiArtikle();
         } catch (Exception ex) {
             Logger.getLogger(TableModelArtikli.class.getName()).log(Level.SEVERE, null, ex);
         }

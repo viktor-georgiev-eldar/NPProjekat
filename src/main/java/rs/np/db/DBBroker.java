@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import rs.np.admin.forme.korisnik.PrikazKorisnikaForm;
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class DBBroker {
 

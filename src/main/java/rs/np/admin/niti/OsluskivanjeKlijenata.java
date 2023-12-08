@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author agro
+ * @author Viktor
  */
 public class OsluskivanjeKlijenata extends Thread {
 
